@@ -95,7 +95,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
           }
         );
         if(response2.status === 200) {
-          setCurrentUser(response2.data);
+          if(!currentUser || (currentUser.id !== response2.data.id) || (currentUser.role !== response2.data.role)){
+            setCurrentUser(response2.data);
+          }          
         }        
       } catch (error) {
         console.error("Fetch error:", error);
