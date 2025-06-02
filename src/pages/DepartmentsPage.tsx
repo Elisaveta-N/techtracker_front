@@ -62,7 +62,7 @@ const DepartmentsPage: React.FC = () => {
     setNameError(null);
     
     if (isEditing && currentDepartment.id) {
-      updateDepartment(currentDepartment.id, currentDepartment);
+      await updateDepartment(currentDepartment.id, currentDepartment);
     } else {
       await createDepartment({
         name: currentDepartment.name as string,

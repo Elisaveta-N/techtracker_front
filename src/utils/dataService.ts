@@ -204,23 +204,50 @@ export const createDepartment = async (
   return null
 };
 
-export const updateDepartment = (
+export const updateDepartment = async (
   id: string,
   departmentData: Partial<Department>
-): Department | null => {
-  const departments = getDepartments();
-  const index = departments.findIndex((dept) => dept.id === id);
+): Promise<Department | null> => {
+  // const departments = await getDepartments();
+  // const index = departments.findIndex((dept) => dept.id === id);
 
-  if (index === -1) return null;
+  // if (index === -1) return null;
 
-  departments[index] = {
-    ...departments[index],
-    ...departmentData,
-    updatedAt: new Date().toISOString(),
-  };
+  // departments[index] = {
+  //   ...departments[index],
+  //   ...departmentData,
+  //   updatedAt: new Date().toISOString(),
+  // };
 
-  localStorage.setItem("departments", JSON.stringify(departments));
-  return departments[index];
+  // localStorage.setItem("departments", JSON.stringify(departments));
+  // return departments[index];
+    try {
+    const payload = {
+      department: {
+        depName: departmentData.name,
+      },
+    };
+    const response = await axios.patch(
+      `http://localhost:3500/department/${id}`,
+      payload,
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.status === 201) {
+      const newDepartment: Department = {
+        id: response.data.id.toString(),
+        name: response.data.depName,
+        updatedAt: new Date().toISOString(),
+      };
+      return newDepartment
+    }
+    
+  } catch (err) {
+    console.error(`Failed to patch department: ${err}`)
+  }
+  return null
 };
 
 export const deleteDepartment = async (id: string): Promise<boolean> => {
