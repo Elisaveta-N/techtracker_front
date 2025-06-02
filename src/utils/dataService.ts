@@ -191,7 +191,7 @@ export const createDepartment = async (
     if (response.status === 201) {
       const newDepartment: Department = {
         id: response.data.id.toString(),
-        name: response.data.id.depName,
+        name: response.data.depName,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
@@ -223,14 +223,28 @@ export const updateDepartment = (
   return departments[index];
 };
 
-export const deleteDepartment = (id: string): boolean => {
-  const departments = getDepartments();
-  const newDepartments = departments.filter((dept) => dept.id !== id);
+export const deleteDepartment = async (id: string): Promise<boolean> => {
+  // const departments = getDepartments();
+  // const newDepartments = departments.filter((dept) => dept.id !== id);
 
-  if (newDepartments.length === departments.length) return false;
+  // if (newDepartments.length === departments.length) return false;
 
-  localStorage.setItem("departments", JSON.stringify(newDepartments));
-  return true;
+  // localStorage.setItem("departments", JSON.stringify(newDepartments));
+  // return true;
+  try{
+    const response = await axios.delete(
+      `http://localhost:3500/department/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    if (response.status === 204) {
+      return true;
+    }
+  } catch (err) {
+    console.error(`Failed to delete department: ${err}`)
+  }
+  return false
 };
 
 // Asset operations

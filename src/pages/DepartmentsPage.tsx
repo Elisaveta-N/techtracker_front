@@ -43,7 +43,7 @@ const DepartmentsPage: React.FC = () => {
 
   const [nameError, setNameError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!currentDepartment.name) return;
@@ -64,7 +64,7 @@ const DepartmentsPage: React.FC = () => {
     if (isEditing && currentDepartment.id) {
       updateDepartment(currentDepartment.id, currentDepartment);
     } else {
-      createDepartment({
+      await createDepartment({
         name: currentDepartment.name as string,
         description: currentDepartment.description,
       });
@@ -74,9 +74,9 @@ const DepartmentsPage: React.FC = () => {
     loadDepartments();
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this department?')) {
-      deleteDepartment(id);
+      await deleteDepartment(id);
       loadDepartments();
     }
   };
