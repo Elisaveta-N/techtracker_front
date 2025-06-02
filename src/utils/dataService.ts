@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError, AxiosResponse  } from 'axios';
 import { Department, Asset, Employee } from '../models/types';
 
 // Initialize localStorage with default data if empty
@@ -148,7 +148,11 @@ export const getDepartments = async (): Promise<Department[]> => {
       ); 
       return response.data;
     } catch (err) {
-      console.log(err?.message || "Failed to get data")
+      if (axios.isAxiosError(err)) {
+        console.log(err?.message || "Failed to get data")
+      } else {
+        console.log(`JS error: ${err}`)
+      }
     } 
   return []
 };
@@ -158,8 +162,8 @@ export const getDepartmentById = (id: string): Department | undefined => {
   return departments.find(dept => dept.id === id);
 };
 
-export const createDepartment = (department: Omit<Department, 'id' | 'createdAt' | 'updatedAt'>): Department => {
-  const departments = getDepartments();
+export const createDepartment = async (department: Omit<Department, 'id' | 'createdAt' | 'updatedAt'>): Department => {
+  const departments = await getDepartments();
   const newDepartment: Department = {
     ...department,
     id: generateId(),

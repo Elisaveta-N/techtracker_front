@@ -39,14 +39,6 @@ const LoginPage: React.FC = () => {
       );
       console.log(response2.data)
       setCurrentUser(response2.data);
-
-
-      // setLoginData(response.data);
-      // setUser({ name, "jwt": response.data});
-
-
-
-
     } catch (err) {
       console.error(err)
       // setError(err?.response?.data?.message || err.message || "Failed to login data");
