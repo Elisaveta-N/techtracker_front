@@ -342,9 +342,21 @@ export const deleteAsset = (id: string): boolean => {
 };
 
 // Employee operations
-export const getEmployees = (): Employee[] => {
-  initializeStorage();
-  return JSON.parse(localStorage.getItem("employees") || "[]");
+export const getEmployees = async (): Promise<Employee[]> => {
+  // initializeStorage();
+  // return JSON.parse(localStorage.getItem("employees") || "[]");
+    try {
+    const response = await axios.get(`http://localhost:3500/employee`);
+    return response.data;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      console.log(err?.message || "Failed to get data");
+    } else {
+      console.log(`JS error: ${err}`);
+    }
+  }
+  return [];
+
 };
 
 export const getEmployeeById = (id: string): Employee | undefined => {

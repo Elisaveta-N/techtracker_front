@@ -15,12 +15,17 @@ const EmployeesPage: React.FC = () => {
   const [filterDepartment, setFilterDepartment] = useState<string>('');
   const { currentUser, canAddEmployee, canEditEmployee, canViewEmployee } = useAuth();
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  // useEffect(() => {
+  //   loadData();
+  // }, []);
+    useEffect(() => {
+      (async () => {
+        await loadData();
+      })();
+    }, []);
 
   const loadData = async () => {
-    setEmployees(getEmployees());
+    setEmployees(await getEmployees());
     setDepartments(await getDepartments());
   };
 

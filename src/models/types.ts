@@ -18,19 +18,19 @@ export interface Asset {
   purchaseDate?: string;
   purchasePrice?: number;
   notes?: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Employee {
   id: string;
   firstName: string;
   lastName: string;
-  email: string;
-  position: string;
+  email?: string;
+  position?: string;
   departmentId: string;
   hireDate?: string;
   phone?: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
