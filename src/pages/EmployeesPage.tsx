@@ -46,7 +46,7 @@ const EmployeesPage: React.FC = () => {
     setCurrentEmployee({ ...currentEmployee, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!currentEmployee.firstName || !currentEmployee.lastName || !currentEmployee.email || !currentEmployee.position || !currentEmployee.departmentId) return;
@@ -54,7 +54,7 @@ const EmployeesPage: React.FC = () => {
     if (isEditing && currentEmployee.id) {
       updateEmployee(currentEmployee.id, currentEmployee);
     } else {
-      createEmployee({
+      await createEmployee({
         firstName: currentEmployee.firstName as string,
         lastName: currentEmployee.lastName as string,
         email: currentEmployee.email as string,
@@ -66,13 +66,13 @@ const EmployeesPage: React.FC = () => {
     }
     
     setIsModalOpen(false);
-    loadData();
+    await loadData();
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this employee?')) {
       deleteEmployee(id);
-      loadData();
+      await loadData();
     }
   };
 

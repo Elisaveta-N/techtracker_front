@@ -33,4 +33,5 @@ export interface Employee {
   phone?: string;
   createdAt?: string;
   updatedAt?: string;
+  userId?: string;
 }

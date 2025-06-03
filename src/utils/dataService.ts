@@ -359,25 +359,60 @@ export const getEmployees = async (): Promise<Employee[]> => {
 
 };
 
-export const getEmployeeById = (id: string): Employee | undefined => {
-  const employees = getEmployees();
-  return employees.find((emp) => emp.id === id);
+export const getEmployeeById = async (id: string): Promise<Employee | undefined> => {
+  // const employees = getEmployees();
+  // return employees.find((emp) => emp.id === id);
+    try {
+    const response = await axios.get(`http://localhost:3500/employee/${id}`);
+    return response.data;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      console.log(err?.message || "Failed to get data");
+    } else {
+      console.log(`JS error: ${err}`);
+    }
+  }
+  return ;
 };
 
-export const createEmployee = (
-  employee: Omit<Employee, "id" | "createdAt" | "updatedAt">
-): Employee => {
-  const employees = getEmployees();
-  const newEmployee: Employee = {
-    ...employee,
-    id: generateId(),
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
+export const createEmployee = async (
+  emp: Omit<Employee, "id" | "createdAt" | "updatedAt">
+): Promise<Employee | null> => {
+  // const employees = getEmployees();
+  // const newEmployee: Employee = {
+  //   ...employee,
+  //   id: generateId(),
+  //   createdAt: new Date().toISOString(),
+  //   updatedAt: new Date().toISOString(),
+  // };
 
-  employees.push(newEmployee);
-  localStorage.setItem("employees", JSON.stringify(employees));
-  return newEmployee;
+  // employees.push(newEmployee);
+  // localStorage.setItem("employees", JSON.stringify(employees));
+  // return newEmployee;
+    try {
+    const payload = {
+      employee: {
+        firstName: emp.firstName,
+        lastName: emp.lastName,
+        departmentId: emp.departmentId,
+      },
+    };
+    const response = await axios.post(
+      "http://localhost:3500/employee",
+      payload,
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.status === 201) {
+      return response.data
+    }
+    
+  } catch (err) {
+    console.error(`Failed to create employee: ${err}`)
+  }
+  return null
 };
 
 export const updateEmployee = (
