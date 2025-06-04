@@ -52,7 +52,7 @@ const EmployeesPage: React.FC = () => {
     if (!currentEmployee.firstName || !currentEmployee.lastName || !currentEmployee.email || !currentEmployee.position || !currentEmployee.departmentId) return;
     
     if (isEditing && currentEmployee.id) {
-      updateEmployee(currentEmployee.id, currentEmployee);
+      await updateEmployee(currentEmployee.id, currentEmployee);
     } else {
       await createEmployee({
         firstName: currentEmployee.firstName as string,

@@ -415,23 +415,47 @@ export const createEmployee = async (
   return null
 };
 
-export const updateEmployee = (
+export const updateEmployee = async (
   id: string,
   employeeData: Partial<Employee>
-): Employee | null => {
-  const employees = getEmployees();
-  const index = employees.findIndex((emp) => emp.id === id);
+): Promise<Employee | null> => {
+  // const employees = getEmployees();
+  // const index = employees.findIndex((emp) => emp.id === id);
 
-  if (index === -1) return null;
+  // if (index === -1) return null;
 
-  employees[index] = {
-    ...employees[index],
-    ...employeeData,
-    updatedAt: new Date().toISOString(),
-  };
+  // employees[index] = {
+  //   ...employees[index],
+  //   ...employeeData,
+  //   updatedAt: new Date().toISOString(),
+  // };
 
-  localStorage.setItem("employees", JSON.stringify(employees));
-  return employees[index];
+  // localStorage.setItem("employees", JSON.stringify(employees));
+  // return employees[index];
+      try {
+    const payload = {
+      employee: {
+        firstName: employeeData.firstName,
+        lastName: employeeData.lastName,
+        departmentId: employeeData.departmentId,
+      },
+    };
+    const response = await axios.patch(
+      `http://localhost:3500/employee/${id}`,
+      payload,
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.status === 200) {
+      return response.data
+    }
+    
+  } catch (err) {
+    console.error(`Failed to create employee: ${err}`)
+  }
+  return null
 };
 
 export const deleteEmployee = async (id: string): Promise<boolean> => {
