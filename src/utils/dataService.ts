@@ -275,13 +275,24 @@ export const deleteDepartment = async (id: string): Promise<boolean> => {
 };
 
 // Asset operations
-export const getAssets = (): Asset[] => {
-  initializeStorage();
-  return JSON.parse(localStorage.getItem("assets") || "[]");
+export const getAssets = async (): Promise<Asset[]> => {
+  // initializeStorage();
+  // return JSON.parse(localStorage.getItem("assets") || "[]");
+    try {
+    const response = await axios.get(`http://localhost:3500/asset`);
+    return response.data;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      console.log(err?.message || "Failed to get data");
+    } else {
+      console.log(`JS error: ${err}`);
+    }
+  }
+  return [];
 };
 
-export const getAssetById = (id: string): Asset | undefined => {
-  const assets = getAssets();
+export const getAssetById = async (id: string): Promise<Asset | undefined> => {
+  const assets = await getAssets();
   return assets.find((asset) => asset.id === id);
 };
 

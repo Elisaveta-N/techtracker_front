@@ -44,7 +44,7 @@ const AssetsPage: React.FC = () => {
   }, []);
 
   const loadData = async () => {
-    setAssets(getAssets());
+    setAssets(await getAssets());
     setDepartments(await getDepartments());
     setEmployees(getEmployees());
   };
@@ -70,7 +70,7 @@ const AssetsPage: React.FC = () => {
     setCurrentAsset({ ...currentAsset, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (
@@ -85,7 +85,7 @@ const AssetsPage: React.FC = () => {
     if (isEditing && currentAsset.id) {
       updateAsset(currentAsset.id, currentAsset);
     } else {
-      createAsset({
+      await createAsset({
         assetModel: currentAsset.assetModel as string,
         assetSN: currentAsset.assetSN as string,
         assetType: currentAsset.assetType as

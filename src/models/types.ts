@@ -10,6 +10,7 @@ export interface Asset {
   id: string;
   assetModel: string;
   employee?: string;
+  employeeId?: string;
   assetType: 'computer' | 'smartphone' | 'dockstation' | 'laptop' | 'monitor';
   assetSN: string;
   assetStatus: 'inOperation' | 'inRepaire' | 'inStock' | 'writeOff';
