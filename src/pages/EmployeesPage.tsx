@@ -71,7 +71,7 @@ const EmployeesPage: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this employee?')) {
-      deleteEmployee(id);
+      await deleteEmployee(id);
       await loadData();
     }
   };

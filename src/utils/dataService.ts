@@ -434,12 +434,26 @@ export const updateEmployee = (
   return employees[index];
 };
 
-export const deleteEmployee = (id: string): boolean => {
-  const employees = getEmployees();
-  const newEmployees = employees.filter((emp) => emp.id !== id);
+export const deleteEmployee = async (id: string): Promise<boolean> => {
+  // const employees = getEmployees();
+  // const newEmployees = employees.filter((emp) => emp.id !== id);
 
-  if (newEmployees.length === employees.length) return false;
+  // if (newEmployees.length === employees.length) return false;
 
-  localStorage.setItem("employees", JSON.stringify(newEmployees));
-  return true;
+  // localStorage.setItem("employees", JSON.stringify(newEmployees));
+  // return true;
+    try{
+    const response = await axios.delete(
+      `http://localhost:3500/employee/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    if (response.status === 204) {
+      return true;
+    }
+  } catch (err) {
+    console.error(`Failed to delete employee: ${err}`)
+  }
+  return false
 };
