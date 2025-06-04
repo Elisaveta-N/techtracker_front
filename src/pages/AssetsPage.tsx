@@ -46,7 +46,7 @@ const AssetsPage: React.FC = () => {
   const loadData = async () => {
     setAssets(await getAssets());
     setDepartments(await getDepartments());
-    setEmployees(getEmployees());
+    setEmployees(await getEmployees());
   };
 
   const openAddModal = () => {
@@ -186,10 +186,10 @@ const AssetsPage: React.FC = () => {
     if (currentUser.role === "MANAGER") {
       // Manager can see assets from their department
       return assets.filter(
-        (asset) =>
+        async (asset) =>
           asset.departmentId === currentUser.departmentId ||
           (asset.employee &&
-            getEmployees().some(
+            (await getEmployees()).some(
               (emp) =>
                 emp.departmentId === currentUser.departmentId &&
                 asset.employee?.includes(`${emp.firstName} ${emp.lastName}`)
@@ -606,7 +606,7 @@ const AssetsPage: React.FC = () => {
                     <option value="">None</option>
                     {employees.map((emp) => (
                       <option key={emp.id} value={emp.id}>
-                        {emp.firstName} {emp.lastName} ({emp.position})
+                        {emp.firstName} {emp.lastName} { emp.position && `(${emp.position})`}
                       </option>
                     ))}
                   </select>
