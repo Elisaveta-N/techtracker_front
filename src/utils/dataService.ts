@@ -319,22 +319,32 @@ export const createAsset = async (
   // assets.push(newAsset);
   // localStorage.setItem("assets", JSON.stringify(assets));
   // return newAsset;
+  console.log(JSON.stringify(asset));
+
   try {
-    const payload = {
+    let payload = {
       asset: {
-        assetModel: "",
+        assetModel: asset.assetModel,
+        assetType: asset.assetType,
+        assetSN: asset.assetSN,
+        assetStatus: asset.assetStatus,
+        assetInvenrotyNumber: asset.assetInventoryNumber,
+        employeeId: asset?.employeeId,
       },
     };
-    const response = await axios.post("http://localhost:3500/asset", payload, {
-      withCredentials: true,
-    });
 
-    if (response.status === 201) {
-      const newAsset: Asset = {
-        ...asset,
-      };
-      return newAsset;
-    }
+    console.log(JSON.stringify(payload))
+
+    // const response = await axios.post("http://localhost:3500/asset", payload, {
+    //   withCredentials: true,
+    // });
+
+    // if (response.status === 201) {
+    //   const newAsset: Asset = {
+    //     ...response.data,
+    //   };
+    //   return newAsset;
+    // }
   } catch (err) {
     console.error(`Failed to delete department: ${err}`);
   }

@@ -101,6 +101,7 @@ const AssetsPage: React.FC = () => {
           | "writeOff",
         assetInventoryNumber: currentAsset.assetInventoryNumber as string,
         employee: currentAsset.employee,
+        employeeId: currentAsset.employeeId,
         departmentId: currentAsset.departmentId,
         purchaseDate: currentAsset.purchaseDate,
         purchasePrice: currentAsset.purchasePrice
@@ -590,6 +591,7 @@ const AssetsPage: React.FC = () => {
                             ...currentAsset,
                             employee: `${selectedEmployee.firstName} ${selectedEmployee.lastName}`,
                             departmentId: selectedEmployee.departmentId,
+                            employeeId: selectedEmployee.id,
                           });
                         }
                       } else {
