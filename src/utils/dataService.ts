@@ -195,13 +195,12 @@ export const createDepartment = async (
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
-      return newDepartment
+      return newDepartment;
     }
-    
   } catch (err) {
-    console.error(`Failed to delete department: ${err}`)
+    console.error(`Failed to delete department: ${err}`);
   }
-  return null
+  return null;
 };
 
 export const updateDepartment = async (
@@ -221,7 +220,7 @@ export const updateDepartment = async (
 
   // localStorage.setItem("departments", JSON.stringify(departments));
   // return departments[index];
-    try {
+  try {
     const payload = {
       department: {
         depName: departmentData.name,
@@ -241,13 +240,12 @@ export const updateDepartment = async (
         name: response.data.depName,
         updatedAt: new Date().toISOString(),
       };
-      return newDepartment
+      return newDepartment;
     }
-    
   } catch (err) {
-    console.error(`Failed to patch department: ${err}`)
+    console.error(`Failed to patch department: ${err}`);
   }
-  return null
+  return null;
 };
 
 export const deleteDepartment = async (id: string): Promise<boolean> => {
@@ -258,7 +256,7 @@ export const deleteDepartment = async (id: string): Promise<boolean> => {
 
   // localStorage.setItem("departments", JSON.stringify(newDepartments));
   // return true;
-  try{
+  try {
     const response = await axios.delete(
       `http://localhost:3500/department/${id}`,
       {
@@ -269,16 +267,16 @@ export const deleteDepartment = async (id: string): Promise<boolean> => {
       return true;
     }
   } catch (err) {
-    console.error(`Failed to delete department: ${err}`)
+    console.error(`Failed to delete department: ${err}`);
   }
-  return false
+  return false;
 };
 
 // Asset operations
 export const getAssets = async (): Promise<Asset[]> => {
   // initializeStorage();
   // return JSON.parse(localStorage.getItem("assets") || "[]");
-    try {
+  try {
     const response = await axios.get(`http://localhost:3500/asset`);
     return response.data;
   } catch (err) {
@@ -296,31 +294,51 @@ export const getAssetById = async (id: string): Promise<Asset | undefined> => {
   return assets.find((asset) => asset.id === id);
 };
 
-export const createAsset = (
+export const createAsset = async (
   asset: Omit<Asset, "id" | "createdAt" | "updatedAt">
-): Asset => {
-  const assets = getAssets();
-  const newAsset: Asset = {
-    ...asset,
-    id: generateId(),
-    assetType: asset.assetType as
-      | "computer"
-      | "smartphone"
-      | "dockstation"
-      | "laptop"
-      | "monitor",
-    assetStatus: asset.assetStatus as
-      | "inOperation"
-      | "inRepaire"
-      | "inStock"
-      | "writeOff",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
+): Promise<Asset | null> => {
+  // const assets = getAssets();
+  // const newAsset: Asset = {
+  //   ...asset,
+  //   id: generateId(),
+  //   assetType: asset.assetType as
+  //     | "computer"
+  //     | "smartphone"
+  //     | "dockstation"
+  //     | "laptop"
+  //     | "monitor",
+  //   assetStatus: asset.assetStatus as
+  //     | "inOperation"
+  //     | "inRepaire"
+  //     | "inStock"
+  //     | "writeOff",
+  //   createdAt: new Date().toISOString(),
+  //   updatedAt: new Date().toISOString(),
+  // };
 
-  assets.push(newAsset);
-  localStorage.setItem("assets", JSON.stringify(assets));
-  return newAsset;
+  // assets.push(newAsset);
+  // localStorage.setItem("assets", JSON.stringify(assets));
+  // return newAsset;
+  try {
+    const payload = {
+      asset: {
+        assetModel: "",
+      },
+    };
+    const response = await axios.post("http://localhost:3500/asset", payload, {
+      withCredentials: true,
+    });
+
+    if (response.status === 201) {
+      const newAsset: Asset = {
+        ...asset,
+      };
+      return newAsset;
+    }
+  } catch (err) {
+    console.error(`Failed to delete department: ${err}`);
+  }
+  return null;
 };
 
 export const updateAsset = (
@@ -356,7 +374,7 @@ export const deleteAsset = (id: string): boolean => {
 export const getEmployees = async (): Promise<Employee[]> => {
   // initializeStorage();
   // return JSON.parse(localStorage.getItem("employees") || "[]");
-    try {
+  try {
     const response = await axios.get(`http://localhost:3500/employee`);
     return response.data;
   } catch (err) {
@@ -367,13 +385,14 @@ export const getEmployees = async (): Promise<Employee[]> => {
     }
   }
   return [];
-
 };
 
-export const getEmployeeById = async (id: string): Promise<Employee | undefined> => {
+export const getEmployeeById = async (
+  id: string
+): Promise<Employee | undefined> => {
   // const employees = getEmployees();
   // return employees.find((emp) => emp.id === id);
-    try {
+  try {
     const response = await axios.get(`http://localhost:3500/employee/${id}`);
     return response.data;
   } catch (err) {
@@ -383,7 +402,7 @@ export const getEmployeeById = async (id: string): Promise<Employee | undefined>
       console.log(`JS error: ${err}`);
     }
   }
-  return ;
+  return;
 };
 
 export const createEmployee = async (
@@ -400,7 +419,7 @@ export const createEmployee = async (
   // employees.push(newEmployee);
   // localStorage.setItem("employees", JSON.stringify(employees));
   // return newEmployee;
-    try {
+  try {
     const payload = {
       employee: {
         firstName: emp.firstName,
@@ -417,13 +436,12 @@ export const createEmployee = async (
     );
 
     if (response.status === 201) {
-      return response.data
+      return response.data;
     }
-    
   } catch (err) {
-    console.error(`Failed to create employee: ${err}`)
+    console.error(`Failed to create employee: ${err}`);
   }
-  return null
+  return null;
 };
 
 export const updateEmployee = async (
@@ -443,7 +461,7 @@ export const updateEmployee = async (
 
   // localStorage.setItem("employees", JSON.stringify(employees));
   // return employees[index];
-      try {
+  try {
     const payload = {
       employee: {
         firstName: employeeData.firstName,
@@ -460,13 +478,12 @@ export const updateEmployee = async (
     );
 
     if (response.status === 200) {
-      return response.data
+      return response.data;
     }
-    
   } catch (err) {
-    console.error(`Failed to create employee: ${err}`)
+    console.error(`Failed to create employee: ${err}`);
   }
-  return null
+  return null;
 };
 
 export const deleteEmployee = async (id: string): Promise<boolean> => {
@@ -477,7 +494,7 @@ export const deleteEmployee = async (id: string): Promise<boolean> => {
 
   // localStorage.setItem("employees", JSON.stringify(newEmployees));
   // return true;
-    try{
+  try {
     const response = await axios.delete(
       `http://localhost:3500/employee/${id}`,
       {
@@ -488,7 +505,7 @@ export const deleteEmployee = async (id: string): Promise<boolean> => {
       return true;
     }
   } catch (err) {
-    console.error(`Failed to delete employee: ${err}`)
+    console.error(`Failed to delete employee: ${err}`);
   }
-  return false
+  return false;
 };
