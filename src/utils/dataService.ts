@@ -198,7 +198,7 @@ export const createDepartment = async (
       return newDepartment;
     }
   } catch (err) {
-    console.error(`Failed to delete department: ${err}`);
+    console.error(`Failed to create department: ${err}`);
   }
   return null;
 };
@@ -335,18 +335,15 @@ export const createAsset = async (
 
     console.log(JSON.stringify(payload))
 
-    // const response = await axios.post("http://localhost:3500/asset", payload, {
-    //   withCredentials: true,
-    // });
+    const response = await axios.post("http://localhost:3500/asset", payload, {
+      withCredentials: true,
+    });
 
-    // if (response.status === 201) {
-    //   const newAsset: Asset = {
-    //     ...response.data,
-    //   };
-    //   return newAsset;
-    // }
+    if (response.status === 201) {
+      return response.data;
+    }
   } catch (err) {
-    console.error(`Failed to delete department: ${err}`);
+    console.error(`Failed to create an asset: ${err}`);
   }
   return null;
 };
