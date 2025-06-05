@@ -367,14 +367,28 @@ export const updateAsset = (
   return assets[index];
 };
 
-export const deleteAsset = (id: string): boolean => {
-  const assets = getAssets();
-  const newAssets = assets.filter((asset) => asset.id !== id);
+export const deleteAsset = async (id: string): Promise<boolean> => {
+  // const assets = getAssets();
+  // const newAssets = assets.filter((asset) => asset.id !== id);
 
-  if (newAssets.length === assets.length) return false;
+  // if (newAssets.length === assets.length) return false;
 
-  localStorage.setItem("assets", JSON.stringify(newAssets));
-  return true;
+  // localStorage.setItem("assets", JSON.stringify(newAssets));
+  // return true;
+    try {
+    const response = await axios.delete(
+      `http://localhost:3500/asset/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    if (response.status === 204) {
+      return true;
+    }
+  } catch (err) {
+    console.error(`Failed to delete asset: ${err}`);
+  }
+  return false;
 };
 
 // Employee operations

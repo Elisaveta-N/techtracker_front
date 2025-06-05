@@ -115,10 +115,10 @@ const AssetsPage: React.FC = () => {
     loadData();
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this asset?")) {
-      deleteAsset(id);
-      loadData();
+      await deleteAsset(id);
+      await loadData();
     }
   };
 
