@@ -83,7 +83,7 @@ const AssetsPage: React.FC = () => {
       return;
 
     if (isEditing && currentAsset.id) {
-      updateAsset(currentAsset.id, currentAsset);
+      await updateAsset(currentAsset.id, currentAsset);
     } else {
       await createAsset({
         assetModel: currentAsset.assetModel as string,
@@ -599,6 +599,7 @@ const AssetsPage: React.FC = () => {
                           ...currentAsset,
                           employee: "",
                           departmentId: "",
+                          employeeId: undefined,
                         });
                       }
                     }}

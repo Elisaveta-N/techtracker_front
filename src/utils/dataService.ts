@@ -348,23 +348,52 @@ export const createAsset = async (
   return null;
 };
 
-export const updateAsset = (
+export const updateAsset = async (
   id: string,
   assetData: Partial<Asset>
-): Asset | null => {
-  const assets = getAssets();
-  const index = assets.findIndex((asset) => asset.id === id);
+): Promise<Asset | null> => {
+  // const assets = getAssets();
+  // const index = assets.findIndex((asset) => asset.id === id);
 
-  if (index === -1) return null;
+  // if (index === -1) return null;
 
-  assets[index] = {
-    ...assets[index],
-    ...assetData,
-    updatedAt: new Date().toISOString(),
-  };
+  // assets[index] = {
+  //   ...assets[index],
+  //   ...assetData,
+  //   updatedAt: new Date().toISOString(),
+  // };
 
-  localStorage.setItem("assets", JSON.stringify(assets));
-  return assets[index];
+  // localStorage.setItem("assets", JSON.stringify(assets));
+  // return assets[index];
+    console.log(JSON.stringify(assetData));
+
+  try {
+    // let payload = {
+    //   asset: {
+    //     id: assetData.id,
+    //     assetModel: assetData.assetModel,
+    //     assetType: assetData.assetType,
+    //     assetSN: assetData.assetSN,
+    //     assetStatus: assetData.assetStatus,
+    //     assetInvenrotyNumber: assetData.assetInventoryNumber,
+    //     employeeId: assetData?.employeeId,
+    //   },
+    // };
+    let payload = {asset: {...assetData}}
+
+    console.log(JSON.stringify(payload))
+
+    const response = await axios.patch(`http://localhost:3500/asset/${id}`, payload, {
+      withCredentials: true,
+    });
+
+    if (response.status === 201) {
+      return response.data;
+    }
+  } catch (err) {
+    console.error(`Failed to create an asset: ${err}`);
+  }
+  return null;
 };
 
 export const deleteAsset = async (id: string): Promise<boolean> => {
