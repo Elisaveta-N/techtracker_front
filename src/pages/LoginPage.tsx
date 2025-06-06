@@ -52,11 +52,20 @@ const LoginPage: React.FC = () => {
         }
       );
       console.log(response2.data)
+
+      if(response2.status !== 200) {
+        setError(JSON.stringify(response2.data))
+        setCurrentUser(null)
+        return
+      }
       setCurrentUser(response2.data);
+
     } catch (err) {
       console.error(err)
-      // setError(err?.response?.data?.message || err.message || "Failed to login data");
+      setCurrentUser(null)
+      setError(err?.response2?.data?.message || err.message || "Failed to login data");
       // setLoginData(null);
+      return
     } finally {
       // setLoading(false);
     }
@@ -71,10 +80,10 @@ const LoginPage: React.FC = () => {
 
 
 
-    if (!currentUser) {
-      setError('Please select a user to continue');
-      return;
-    }
+    // if (!currentUser) {
+    //   setError('Please select a user to continue');
+    //   return;
+    // }
     
     // Navigate to home page on successful login
     navigate('/');
@@ -191,18 +200,18 @@ const LoginPage: React.FC = () => {
             required
           />
 
-                      <InputField
-                        label="Password"
-                        type={showPassword ? 'text' : 'password'}
-                        value={password}
-                        onChange={handlePasswordChange}
-                        onBlur={() => validatePassword(password)}
-                        placeholder="Enter your password (4-12 characters)"
-                        error={passwordError}
-                        required
-                        minLength={4}
-                        maxLength={12}
-                      />
+          <InputField
+            label="Password"
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={handlePasswordChange}
+            onBlur={() => validatePassword(password)}
+            placeholder="Enter your password (4-12 characters)"
+            error={passwordError}
+            required
+            minLength={4}
+            maxLength={12}
+          />
 
 {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
 
@@ -235,6 +244,12 @@ const LoginPage: React.FC = () => {
                 {error}
               </div>
             )} */}
+
+            {error && 
+              <div className="text-sm text-red-600 bg-red-50 p-2 rounded">
+                {error}
+              </div>
+            }
 
             <div>
               <button
