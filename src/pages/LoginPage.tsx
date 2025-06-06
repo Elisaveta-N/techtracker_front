@@ -4,20 +4,34 @@ import { useAuth, User } from '../contexts/AuthContext';
 import { LogIn, Monitor, Shield } from 'lucide-react';
 import UserSelector from '../components/UserSelector';
 import axios from "axios";
+import InputField from '../components/InputField';
 
 const LoginPage: React.FC = () => {
   const { currentUser, setCurrentUser, users } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState<string >('');
-  const [password, setPassword] = useState<string>('');
+  // const [password, setPassword] = useState<string>('');
+  const [login, setLogin] = useState('')
+  const [loginError, setLoginError] = useState('')
+    const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+    const [passwordError, setPasswordError] = useState('')
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    const isLoginValid = validateLogin(login)
+    const isPasswordValid = validatePassword(password)
+
+    if (!isLoginValid || !isPasswordValid) {
+      return
+    }
+
 // ====================================================
     try {
       const payload = {
-          user: name,
+          user: login,
           pwd: password,        
       };
 
@@ -53,12 +67,9 @@ const LoginPage: React.FC = () => {
 
 
 
-
-
-
-
-
 // ====================================================
+
+
 
     if (!currentUser) {
       setError('Please select a user to continue');
@@ -74,10 +85,65 @@ const LoginPage: React.FC = () => {
     setName(event.target.value); // Update the name state with the input's current value
   };
 
-  // Handler for when the Password input changes
-  const handlePasswordChange = (event: { target: { value: any; }; }) => {
-    setPassword(event.target.value); // Update the password state with the input's current value
-  };
+  // // Handler for when the Password input changes
+  // const handlePasswordChange = (event: { target: { value: any; }; }) => {
+  //   setPassword(event.target.value); // Update the password state with the input's current value
+  // };
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const validateLogin = (login: string): boolean => {
+    if (!login) {
+      setLoginError('Login is required')
+      return false
+    }
+    if (login.length < 4) {
+      setLoginError('Login must be at least 4 characters long')
+      return false
+    }
+    setLoginError('')
+    return true
+  }
+
+    const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newLogin = e.target.value
+    setLogin(newLogin)
+    if (newLogin) {
+      validateLogin(newLogin)
+    } else {
+      setLoginError('')
+    }
+  }
+
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newPassword = e.target.value
+    setPassword(newPassword)
+    if (newPassword) {
+      validatePassword(newPassword)
+    } else {
+      setPasswordError('')
+    }
+  }
+
+    const validatePassword = (password: string): boolean => {
+    if (!password) {
+      setPasswordError('Password is required')
+      return false
+    }
+    if (password.length < 4) {
+      setPasswordError('Password must be at least 4 characters long')
+      return false
+    }
+    if (password.length > 12) {
+      setPasswordError('Password must not exceed 12 characters')
+      return false
+    }
+    setPasswordError('')
+    return true
+  }
+
+ 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -97,22 +163,51 @@ const LoginPage: React.FC = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <div className="mb-6 flex items-center justify-center space-x-2 text-sm text-gray-500">
+          {/* <div className="mb-6 flex items-center justify-center space-x-2 text-sm text-gray-500">
             <Shield className="h-4 w-4" />
             <span>User Simulation (Debug)</span>
-          </div>
+          </div> */}
           
           <form className="space-y-6" onSubmit={handleLogin}>
-            <div>
+            {/* <div>
               <label htmlFor="user" className="block text-sm font-medium text-gray-700">
                 Select User
               </label>
               <div className="mt-1">
                 <UserSelector />
               </div>
-            </div>
+            </div> */}
 
-                    <div>
+{/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+     
+          <InputField
+            label="Login"
+            type="login"
+            value={login}
+            onChange={handleLoginChange}
+            onBlur={() => validateLogin(login)}
+            placeholder="Enter your login"
+            error={loginError}
+            required
+          />
+
+                      <InputField
+                        label="Password"
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={handlePasswordChange}
+                        onBlur={() => validatePassword(password)}
+                        placeholder="Enter your password (4-12 characters)"
+                        error={passwordError}
+                        required
+                        minLength={4}
+                        maxLength={12}
+                      />
+
+{/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+
+
+        {/* <div>
           <label htmlFor="name">Name:</label>
           <input
             type="text"
@@ -123,7 +218,7 @@ const LoginPage: React.FC = () => {
           />
         </div>
 
-        {/* Password Field */}
+   
         <div>
           <label htmlFor="password">Password:</label>
           <input
@@ -139,7 +234,7 @@ const LoginPage: React.FC = () => {
               <div className="text-sm text-red-600 bg-red-50 p-2 rounded">
                 {error}
               </div>
-            )}
+            )} */}
 
             <div>
               <button

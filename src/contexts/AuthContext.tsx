@@ -106,19 +106,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, [currentUser, users]);
 
   // Check if user can view an asset
-  const canViewAsset = (assetId: string): boolean => {
+  const canViewAsset = async (assetId: string): Promise<boolean> => {
     if (!currentUser) return false;
 
     // Admin can view all
     if (currentUser.role === "ADMIN") return true;
 
-    const assets = getAssets();
+    const assets = await getAssets();
     const asset = assets.find((a) => a.id === assetId);
     if (!asset) return false;
 
     // Manager can view assets in their department
     if (currentUser.role === "MANAGER") {
-      const employees = getEmployees();
+      const employees = await getEmployees();
       const departmentEmployees = employees.filter(
         (e) => e.departmentId === currentUser.departmentId
       );
@@ -177,13 +177,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   // Check if user can view an employee
-  const canViewEmployee = (employeeId: string): boolean => {
+  const canViewEmployee = async (employeeId: string): Promise<boolean> => {
     if (!currentUser) return false;
 
     // Admin can view all employees
     if (currentUser.role === "ADMIN") return true;
 
-    const employees = getEmployees();
+    const employees = await getEmployees();
     const employee = employees.find((e) => e.id === employeeId);
     if (!employee) return false;
 
@@ -211,8 +211,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const canAddEmployee = currentUser?.role === "ADMIN";
 
   // Function to handle logout
-  const logout = () => {
+  const logout = async () => {
     localStorage.removeItem("currentUserId");
+    try{
+      const response = await axios.get(`http://localhost:3500/logout`, {
+          withCredentials: true,
+      });
+    } catch (err) {
+    } finally {
+
+    }
+  
     setCurrentUser(null);
   };
 

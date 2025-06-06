@@ -135,8 +135,8 @@ const Navigation = () => {
               </Link>
             )}
             <button
-              onClick={() => {
-                logout();
+              onClick={async () => {
+                await logout();
                 setIsMobileMenuOpen(false);
               }}
               className="text-gray-600 hover:text-red-600 hover:bg-gray-50 block w-full text-left px-3 py-2 rounded-md text-base font-medium"
