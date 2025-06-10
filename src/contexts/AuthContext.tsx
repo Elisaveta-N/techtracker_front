@@ -95,7 +95,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     (async () => {
       try {
         const response2 = await axios.get<User>(
-          `http://localhost:3500/user/detailes`,
+          `https://nodejs-web-server2.onrender.com/user/detailes`,
           {
             withCredentials: true,
           }
@@ -223,7 +223,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const logout = async () => {
     localStorage.removeItem("currentUserId");
     try{
-        await axios.get(`http://localhost:3500/logout`, {
+        await axios.get(`https://nodejs-web-server2.onrender.com/logout`, {
           withCredentials: true,
       });
     } catch (err) {

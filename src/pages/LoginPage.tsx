@@ -36,14 +36,14 @@ const LoginPage: React.FC = () => {
         pwd: password,
       };
 
-      const response = await axios.post(`http://localhost:3500/auth`, payload, {
+      const response = await axios.post(`https://nodejs-web-server2.onrender.com/auth`, payload, {
         // headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
       console.log(response.data);
 
       const response2 = await axios.get<User>(
-        `http://localhost:3500/user/detailes`,
+        `https://nodejs-web-server2.onrender.com/user/detailes`,
         {
           withCredentials: true,
         }

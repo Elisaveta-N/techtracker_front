@@ -146,7 +146,7 @@ export const getDepartments = async (): Promise<Department[]> => {
   // initializeStorage();
   // return JSON.parse(localStorage.getItem('departments') || '[]');
   try {
-    const response = await axios.get(`http://localhost:3500/department`, {
+    const response = await axios.get(`https://nodejs-web-server2.onrender.com/department`, {
       withCredentials: true,
     });
     return response.data as Department[];
@@ -187,7 +187,7 @@ export const createDepartment = async (
       },
     };
     const response = await axios.post(
-      "http://localhost:3500/department",
+      "https://nodejs-web-server2.onrender.com/department",
       payload,
       {
         withCredentials: true,
@@ -233,7 +233,7 @@ export const updateDepartment = async (
       },
     };
     const response = await axios.patch(
-      `http://localhost:3500/department/${id}`,
+      `https://nodejs-web-server2.onrender.com/department/${id}`,
       payload,
       {
         withCredentials: true,
@@ -265,7 +265,7 @@ export const deleteDepartment = async (id: string): Promise<boolean> => {
   // return true;
   try {
     const response = await axios.delete(
-      `http://localhost:3500/department/${id}`,
+      `https://nodejs-web-server2.onrender.com/department/${id}`,
       {
         withCredentials: true,
       }
@@ -284,7 +284,7 @@ export const getAssets = async (): Promise<Asset[]> => {
   // initializeStorage();
   // return JSON.parse(localStorage.getItem("assets") || "[]");
   try {
-    const response = await axios.get(`http://localhost:3500/asset`, {
+    const response = await axios.get(`https://nodejs-web-server2.onrender.com/asset`, {
         withCredentials: true,
       });
     return response.data as Asset[];
@@ -345,7 +345,7 @@ export const createAsset = async (
 
     console.log(JSON.stringify(payload))
 
-    const response = await axios.post("http://localhost:3500/asset", payload, {
+    const response = await axios.post("https://nodejs-web-server2.onrender.com/asset", payload, {
       withCredentials: true,
     });
 
@@ -393,7 +393,7 @@ export const updateAsset = async (
 
     console.log(JSON.stringify(payload))
 
-    const response = await axios.patch(`http://localhost:3500/asset/${id}`, payload, {
+    const response = await axios.patch(`https://nodejs-web-server2.onrender.com/asset/${id}`, payload, {
       withCredentials: true,
     });
 
@@ -416,7 +416,7 @@ export const deleteAsset = async (id: string): Promise<boolean> => {
   // return true;
     try {
     const response = await axios.delete(
-      `http://localhost:3500/asset/${id}`,
+      `https://nodejs-web-server2.onrender.com/asset/${id}`,
       {
         withCredentials: true,
       }
@@ -435,7 +435,7 @@ export const getEmployees = async (): Promise<Employee[]> => {
   // initializeStorage();
   // return JSON.parse(localStorage.getItem("employees") || "[]");
   try {
-    const response = await axios.get(`http://localhost:3500/employee`, {
+    const response = await axios.get(`https://nodejs-web-server2.onrender.com/employee`, {
       withCredentials: true,
     });
     return response.data as Employee[];
@@ -456,7 +456,7 @@ export const getEmployeeById = async (
   // const employees = getEmployees();
   // return employees.find((emp) => emp.id === id);
   try {
-    const response = await axios.get(`http://localhost:3500/employee/${id}`, {
+    const response = await axios.get(`https://nodejs-web-server2.onrender.com/employee/${id}`, {
       withCredentials: true,
     });
     return response.data as Employee;
@@ -494,7 +494,7 @@ export const createEmployee = async (
       },
     };
     const response = await axios.post(
-      "http://localhost:3500/employee",
+      "https://nodejs-web-server2.onrender.com/employee",
       payload,
       {
         withCredentials: true,
@@ -536,7 +536,7 @@ export const updateEmployee = async (
       },
     };
     const response = await axios.patch(
-      `http://localhost:3500/employee/${id}`,
+      `https://nodejs-web-server2.onrender.com/employee/${id}`,
       payload,
       {
         withCredentials: true,
@@ -562,7 +562,7 @@ export const deleteEmployee = async (id: string): Promise<boolean> => {
   // return true;
   try {
     const response = await axios.delete(
-      `http://localhost:3500/employee/${id}`,
+      `https://nodejs-web-server2.onrender.com/employee/${id}`,
       {
         withCredentials: true,
       }
