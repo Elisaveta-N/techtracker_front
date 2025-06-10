@@ -146,7 +146,9 @@ export const getDepartments = async (): Promise<Department[]> => {
   // initializeStorage();
   // return JSON.parse(localStorage.getItem('departments') || '[]');
   try {
-    const response = await axios.get(`http://localhost:3500/department`);
+    const response = await axios.get(`http://localhost:3500/department`, {
+      withCredentials: true,
+    });
     return response.data as Department[];
   } catch (err) {
     if (err instanceof AxiosError) {
@@ -282,7 +284,9 @@ export const getAssets = async (): Promise<Asset[]> => {
   // initializeStorage();
   // return JSON.parse(localStorage.getItem("assets") || "[]");
   try {
-    const response = await axios.get(`http://localhost:3500/asset`);
+    const response = await axios.get(`http://localhost:3500/asset`, {
+        withCredentials: true,
+      });
     return response.data as Asset[];
   } catch (err) {
     if (err instanceof AxiosError) {
@@ -431,7 +435,9 @@ export const getEmployees = async (): Promise<Employee[]> => {
   // initializeStorage();
   // return JSON.parse(localStorage.getItem("employees") || "[]");
   try {
-    const response = await axios.get(`http://localhost:3500/employee`);
+    const response = await axios.get(`http://localhost:3500/employee`, {
+      withCredentials: true,
+    });
     return response.data as Employee[];
   } catch (err) {
     if (err instanceof AxiosError) {
@@ -450,7 +456,9 @@ export const getEmployeeById = async (
   // const employees = getEmployees();
   // return employees.find((emp) => emp.id === id);
   try {
-    const response = await axios.get(`http://localhost:3500/employee/${id}`);
+    const response = await axios.get(`http://localhost:3500/employee/${id}`, {
+      withCredentials: true,
+    });
     return response.data as Employee;
   } catch (err) {
     if (err instanceof AxiosError) {
