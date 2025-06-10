@@ -7,7 +7,7 @@ import React, {
 } from "react";
 // import { getDepartments, getEmployees, getAssets } from "../utils/dataService";
 import {getEmployees, getAssets } from "../utils/dataService";
-import axios from "axios";
+import api from '../utils/api';
 
 export type UserRole = "USER" | "MANAGER" | "ADMIN";
 
@@ -44,35 +44,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const predefinedUsers: User[] = [
-  {
-    id: "user-1",
-    firstName: "Jane",
-    lastName: "Smith",
-    email: "jane.smith@company.com",
-    departmentId: "2", // HR department
-    role: "MANAGER",
-    position: "HR Manager",
-  },
-  {
-    id: "user-2",
-    firstName: "Petr",
-    lastName: "Simon",
-    email: "petr.simon@company.com",
-    departmentId: "1", // IT department
-    role: "USER",
-    position: "IT Specialist",
-  },
-  {
-    id: "user-3",
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doe@company.com",
-    departmentId: "1", // IT department
-    role: "ADMIN",
-    position: "Software Developer",
-  },
-];
+export const predefinedUsers: User[] = [];
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -82,20 +54,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   // Check for stored user in localStorage
   useEffect(() => {
-    ////======================
-    // const storedUserId = localStorage.getItem('currentUserId');
-    // if (storedUserId && !currentUser) {
-    //   const user = users.find(u => u.id === storedUserId);
-    //   if (user) {
-    //     setCurrentUser(user);
-    //   }
-    // }
-    ////=====================
-
     (async () => {
       try {
-        const response2 = await axios.get<User>(
-          `https://nodejs-web-server2.onrender.com/user/detailes`,
+        const response2 = await api.get<User>(
+          `/user/detailes`,
           {
             withCredentials: true,
           }
@@ -223,10 +185,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const logout = async () => {
     localStorage.removeItem("currentUserId");
     try{
-        await axios.get(`https://nodejs-web-server2.onrender.com/logout`, {
+        await api.get(`/logout`, {
           withCredentials: true,
       });
     } catch (err) {
+      console.error(`logout error: ${JSON.stringify(err)}`)
     } finally {
 
     }

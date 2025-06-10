@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth, User } from "../contexts/AuthContext";
 import { LogIn, Monitor } from "lucide-react";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import InputField from "../components/InputField";
+import api from '../utils/api';
 
 const LoginPage: React.FC = () => {
   // const { currentUser, setCurrentUser, users } = useAuth();
@@ -36,14 +37,14 @@ const LoginPage: React.FC = () => {
         pwd: password,
       };
 
-      const response = await axios.post(`https://nodejs-web-server2.onrender.com/auth`, payload, {
+      const response = await api.post(`/auth`, payload, {
         // headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
       console.log(response.data);
 
-      const response2 = await axios.get<User>(
-        `https://nodejs-web-server2.onrender.com/user/detailes`,
+      const response2 = await api.get<User>(
+        `/user/detailes`,
         {
           withCredentials: true,
         }

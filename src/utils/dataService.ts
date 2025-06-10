@@ -1,152 +1,14 @@
-// import axios, { AxiosError, AxiosResponse } from "axios";
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from "axios";
 import { Department, Asset, Employee } from "../models/types";
+import api from '../utils/api';
 
-
-
-// Initialize localStorage with default data if empty
-// const initializeStorage = () => {
-//   // Departments
-//   if (!localStorage.getItem("departments")) {
-//     const defaultDepartments: Department[] = [
-//       {
-//         id: "1",
-//         name: "IT",
-//         description: "Information Technology Department",
-//         createdAt: new Date().toISOString(),
-//         updatedAt: new Date().toISOString(),
-//       },
-//       {
-//         id: "2",
-//         name: "HR",
-//         description: "Human Resources Department",
-//         createdAt: new Date().toISOString(),
-//         updatedAt: new Date().toISOString(),
-//       },
-//     ];
-//     localStorage.setItem("departments", JSON.stringify(defaultDepartments));
-//   }
-
-//   // Assets
-//   if (!localStorage.getItem("assets")) {
-//     const defaultAssets: Asset[] = [
-//       {
-//         id: "1",
-//         assetModel: "Dell XPS 15",
-//         assetSN: "DL-XPS-1234",
-//         assetType: "laptop",
-//         assetStatus: "inOperation",
-//         assetInventoryNumber: "INV-001",
-//         employee: "John Doe",
-//         purchaseDate: "2023-01-15",
-//         purchasePrice: 1299.99,
-//         departmentId: "1",
-//         notes: "New developer laptop",
-//         createdAt: new Date().toISOString(),
-//         updatedAt: new Date().toISOString(),
-//       },
-//       {
-//         id: "2",
-//         assetModel: "iPhone 13",
-//         assetSN: "IP-13-5678",
-//         assetType: "smartphone",
-//         assetStatus: "inOperation",
-//         assetInventoryNumber: "INV-002",
-//         employee: "Jane Smith",
-//         purchaseDate: "2023-02-20",
-//         purchasePrice: 899.99,
-//         departmentId: "2",
-//         createdAt: new Date().toISOString(),
-//         updatedAt: new Date().toISOString(),
-//       },
-//       {
-//         id: "3",
-//         assetModel: "Dell U2720Q Monitor",
-//         assetSN: "DL-U27-5432",
-//         assetType: "monitor",
-//         assetStatus: "inStock",
-//         assetInventoryNumber: "INV-003",
-//         purchaseDate: "2023-03-05",
-//         purchasePrice: 499.99,
-//         departmentId: "1",
-//         createdAt: new Date().toISOString(),
-//         updatedAt: new Date().toISOString(),
-//       },
-//       {
-//         id: "4",
-//         assetModel: "Dell WD19TB Dock",
-//         assetSN: "DL-WD19-7890",
-//         assetType: "dockstation",
-//         assetStatus: "inRepaire",
-//         assetInventoryNumber: "INV-004",
-//         notes: "USB ports not working",
-//         purchaseDate: "2022-11-10",
-//         purchasePrice: 249.99,
-//         departmentId: "1",
-//         createdAt: new Date().toISOString(),
-//         updatedAt: new Date().toISOString(),
-//       },
-//       {
-//         id: "5",
-//         assetModel: "HP EliteDesk 800",
-//         assetSN: "HP-800-1111",
-//         assetType: "computer",
-//         assetStatus: "writeOff",
-//         assetInventoryNumber: "INV-005",
-//         notes: "Outdated hardware",
-//         purchaseDate: "2019-05-15",
-//         purchasePrice: 799.99,
-//         departmentId: "2",
-//         createdAt: new Date().toISOString(),
-//         updatedAt: new Date().toISOString(),
-//       },
-//     ];
-//     localStorage.setItem("assets", JSON.stringify(defaultAssets));
-//   }
-
-//   // Employees
-//   if (!localStorage.getItem("employees")) {
-//     const defaultEmployees: Employee[] = [
-//       {
-//         id: "1",
-//         firstName: "John",
-//         lastName: "Doe",
-//         email: "john.doe@company.com",
-//         position: "Software Developer",
-//         departmentId: "1",
-//         hireDate: "2022-03-10",
-//         phone: "555-123-4567",
-//         createdAt: new Date().toISOString(),
-//         updatedAt: new Date().toISOString(),
-//       },
-//       {
-//         id: "2",
-//         firstName: "Jane",
-//         lastName: "Smith",
-//         email: "jane.smith@company.com",
-//         position: "HR Manager",
-//         departmentId: "2",
-//         hireDate: "2021-06-15",
-//         phone: "555-987-6543",
-//         createdAt: new Date().toISOString(),
-//         updatedAt: new Date().toISOString(),
-//       },
-//     ];
-//     localStorage.setItem("employees", JSON.stringify(defaultEmployees));
-//   }
-// };
-
-// Generate a unique ID
-// const generateId = (): string => {
-//   return Date.now().toString(36) + Math.random().toString(36).substring(2);
-// };
 
 // Department operations
 export const getDepartments = async (): Promise<Department[]> => {
   // initializeStorage();
   // return JSON.parse(localStorage.getItem('departments') || '[]');
   try {
-    const response = await axios.get(`https://nodejs-web-server2.onrender.com/department`, {
+    const response = await api.get(`/department`, {
       withCredentials: true,
     });
     return response.data as Department[];
@@ -186,8 +48,8 @@ export const createDepartment = async (
         depName: dep.name,
       },
     };
-    const response = await axios.post(
-      "https://nodejs-web-server2.onrender.com/department",
+    const response = await api.post(
+      "/department",
       payload,
       {
         withCredentials: true,
@@ -232,8 +94,8 @@ export const updateDepartment = async (
         depName: departmentData.name,
       },
     };
-    const response = await axios.patch(
-      `https://nodejs-web-server2.onrender.com/department/${id}`,
+    const response = await api.patch(
+      `/department/${id}`,
       payload,
       {
         withCredentials: true,
@@ -264,8 +126,8 @@ export const deleteDepartment = async (id: string): Promise<boolean> => {
   // localStorage.setItem("departments", JSON.stringify(newDepartments));
   // return true;
   try {
-    const response = await axios.delete(
-      `https://nodejs-web-server2.onrender.com/department/${id}`,
+    const response = await api.delete(
+      `/department/${id}`,
       {
         withCredentials: true,
       }
@@ -284,7 +146,7 @@ export const getAssets = async (): Promise<Asset[]> => {
   // initializeStorage();
   // return JSON.parse(localStorage.getItem("assets") || "[]");
   try {
-    const response = await axios.get(`https://nodejs-web-server2.onrender.com/asset`, {
+    const response = await api.get(`/asset`, {
         withCredentials: true,
       });
     return response.data as Asset[];
@@ -345,7 +207,7 @@ export const createAsset = async (
 
     console.log(JSON.stringify(payload))
 
-    const response = await axios.post("https://nodejs-web-server2.onrender.com/asset", payload, {
+    const response = await api.post("/asset", payload, {
       withCredentials: true,
     });
 
@@ -393,7 +255,7 @@ export const updateAsset = async (
 
     console.log(JSON.stringify(payload))
 
-    const response = await axios.patch(`https://nodejs-web-server2.onrender.com/asset/${id}`, payload, {
+    const response = await api.patch(`/asset/${id}`, payload, {
       withCredentials: true,
     });
 
@@ -415,8 +277,8 @@ export const deleteAsset = async (id: string): Promise<boolean> => {
   // localStorage.setItem("assets", JSON.stringify(newAssets));
   // return true;
     try {
-    const response = await axios.delete(
-      `https://nodejs-web-server2.onrender.com/asset/${id}`,
+    const response = await api.delete(
+      `/asset/${id}`,
       {
         withCredentials: true,
       }
@@ -435,7 +297,7 @@ export const getEmployees = async (): Promise<Employee[]> => {
   // initializeStorage();
   // return JSON.parse(localStorage.getItem("employees") || "[]");
   try {
-    const response = await axios.get(`https://nodejs-web-server2.onrender.com/employee`, {
+    const response = await api.get(`/employee`, {
       withCredentials: true,
     });
     return response.data as Employee[];
@@ -456,7 +318,7 @@ export const getEmployeeById = async (
   // const employees = getEmployees();
   // return employees.find((emp) => emp.id === id);
   try {
-    const response = await axios.get(`https://nodejs-web-server2.onrender.com/employee/${id}`, {
+    const response = await api.get(`/employee/${id}`, {
       withCredentials: true,
     });
     return response.data as Employee;
@@ -493,8 +355,8 @@ export const createEmployee = async (
         departmentId: emp.departmentId,
       },
     };
-    const response = await axios.post(
-      "https://nodejs-web-server2.onrender.com/employee",
+    const response = await api.post(
+      "/employee",
       payload,
       {
         withCredentials: true,
@@ -535,8 +397,8 @@ export const updateEmployee = async (
         departmentId: employeeData.departmentId,
       },
     };
-    const response = await axios.patch(
-      `https://nodejs-web-server2.onrender.com/employee/${id}`,
+    const response = await api.patch(
+      `/employee/${id}`,
       payload,
       {
         withCredentials: true,
@@ -561,8 +423,8 @@ export const deleteEmployee = async (id: string): Promise<boolean> => {
   // localStorage.setItem("employees", JSON.stringify(newEmployees));
   // return true;
   try {
-    const response = await axios.delete(
-      `https://nodejs-web-server2.onrender.com/employee/${id}`,
+    const response = await api.delete(
+      `/employee/${id}`,
       {
         withCredentials: true,
       }
