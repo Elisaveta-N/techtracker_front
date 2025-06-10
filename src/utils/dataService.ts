@@ -1,7 +1,8 @@
 // import axios, { AxiosError, AxiosResponse } from "axios";
-import axios from "axios";
+import axios, { AxiosError } from 'axios';
 import { Department, Asset, Employee } from "../models/types";
-import { AxiosError } from "axios";
+
+
 
 // Initialize localStorage with default data if empty
 // const initializeStorage = () => {
@@ -147,9 +148,13 @@ export const getDepartments = async (): Promise<Department[]> => {
   try {
     const response = await axios.get(`http://localhost:3500/department`);
     return response.data as Department[];
-  } catch (err: AxiosError) {
-    const errorMessage = err.response?.data?.message || err.message || "Failed to login data";
-    console.log(errorMessage);
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const errorMessage = err.response?.data?.message || err.message || "Failed in getDepartments";
+      console.log(errorMessage);
+    } else {
+      console.log(JSON.stringify(err))
+    }
   }
   return [];
 };
@@ -189,8 +194,8 @@ export const createDepartment = async (
 
     if (response.status === 201) {
       const newDepartment: Department = {
-        id: response.data.id.toString(),
-        name: response.data.depName,
+        id: (response.data as { id: number }).id.toString(),
+        name: (response.data as { depName: string }).depName,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
@@ -232,11 +237,12 @@ export const updateDepartment = async (
         withCredentials: true,
       }
     );
+   
 
     if (response.status === 201) {
       const newDepartment: Department = {
-        id: response.data.id.toString(),
-        name: response.data.depName,
+        id: (response.data as { id: number }).id.toString(),
+        name: (response.data as { depName: string }).depName,
         updatedAt: new Date().toISOString(),
       };
       return newDepartment;
@@ -278,9 +284,13 @@ export const getAssets = async (): Promise<Asset[]> => {
   try {
     const response = await axios.get(`http://localhost:3500/asset`);
     return response.data as Asset[];
-  } catch (err: AxiosError) {
-    const errorMessage = err.response?.data?.message || err.message || "Failed to login data";
-    console.log(errorMessage);
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const errorMessage = err.response?.data?.message || err.message || "Failed in get Assets";
+      console.log(errorMessage);
+    } else {
+      console.log(JSON.stringify(err))
+    }
   }
   return [];
 };
@@ -423,9 +433,13 @@ export const getEmployees = async (): Promise<Employee[]> => {
   try {
     const response = await axios.get(`http://localhost:3500/employee`);
     return response.data as Employee[];
-  } catch (err: AxiosError) {
-    const errorMessage = err.response?.data?.message || err.message || "Failed to login data";
-    console.log(errorMessage);
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const errorMessage = err.response?.data?.message || err.message || "Failed in getEmployees";
+      console.log(errorMessage);
+    } else {
+      console.log(JSON.stringify(err))
+    }
   }
   return [];
 };
@@ -438,9 +452,13 @@ export const getEmployeeById = async (
   try {
     const response = await axios.get(`http://localhost:3500/employee/${id}`);
     return response.data as Employee;
-  } catch (err: AxiosError) {
-    const errorMessage = err.response?.data?.message || err.message || "Failed to login data";
-    console.log(errorMessage);
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      const errorMessage = err.response?.data?.message || err.message || "Failed to login data";
+      console.log(errorMessage);
+    } else {
+      console.log(JSON.stringify(err))
+    }
   }
   return;
 };
