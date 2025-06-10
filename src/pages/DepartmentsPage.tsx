@@ -4,14 +4,15 @@ import PageHeader from '../components/PageHeader';
 import { Department } from '../models/types';
 import { getDepartments, createDepartment, updateDepartment, deleteDepartment } from '../utils/dataService';
 import { useAuth } from '../contexts/AuthContext';
-import PermissionGuard from '../components/PermissionGuard';
+// import PermissionGuard from '../components/PermissionGuard';
 
 const DepartmentsPage: React.FC = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentDepartment, setCurrentDepartment] = useState<Partial<Department>>({});
   const [isEditing, setIsEditing] = useState(false);
-  const { currentUser, canAddDepartment, canEditDepartment, canViewDepartment } = useAuth();
+  // const { currentUser, canAddDepartment, canEditDepartment, canViewDepartment } = useAuth();
+  const { canAddDepartment, canEditDepartment, canViewDepartment } = useAuth();
 
   useEffect(() => {
     loadDepartments();
@@ -118,7 +119,8 @@ const DepartmentsPage: React.FC = () => {
                     )}
                   </div>
                   <div className="flex space-x-2">
-                    {canEditDepartment(department.id) ? (
+                    {/* {canEditDepartment(department.id) ? ( */}
+                    {canEditDepartment() ? (
                       <>
                         <button
                           onClick={() => openEditModal(department)}
@@ -135,7 +137,8 @@ const DepartmentsPage: React.FC = () => {
                       </>
                     ) : (
                       <div className="p-2 text-gray-400">
-                        <AlertTriangle className="h-5 w-5" title="Read-only access" />
+                        {/* <AlertTriangle className="h-5 w-5" title="Read-only access" /> */}
+                        <AlertTriangle className="h-5 w-5"/>
                       </div>
                     )}
                   </div>

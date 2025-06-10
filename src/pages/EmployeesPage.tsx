@@ -4,7 +4,7 @@ import PageHeader from '../components/PageHeader';
 import { Employee, Department } from '../models/types';
 import { getEmployees, createEmployee, updateEmployee, deleteEmployee, getDepartments } from '../utils/dataService';
 import { useAuth } from '../contexts/AuthContext';
-import PermissionGuard from '../components/PermissionGuard';
+// import PermissionGuard from '../components/PermissionGuard';
 
 const EmployeesPage: React.FC = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -13,7 +13,8 @@ const EmployeesPage: React.FC = () => {
   const [currentEmployee, setCurrentEmployee] = useState<Partial<Employee>>({});
   const [isEditing, setIsEditing] = useState(false);
   const [filterDepartment, setFilterDepartment] = useState<string>('');
-  const { currentUser, canAddEmployee, canEditEmployee, canViewEmployee } = useAuth();
+  // const { currentUser, canAddEmployee, canEditEmployee, canViewEmployee } = useAuth();
+  const { canAddEmployee, canEditEmployee, canViewEmployee } = useAuth();
 
   // useEffect(() => {
   //   loadData();
@@ -157,7 +158,8 @@ const EmployeesPage: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex space-x-2">
-                    {canEditEmployee(employee.id) ? (
+                    {/* {canEditEmployee(employee.id) ? ( */}
+                    {canEditEmployee() ? (
                       <>
                         <button
                           onClick={() => openEditModal(employee)}
@@ -174,7 +176,8 @@ const EmployeesPage: React.FC = () => {
                       </>
                     ) : (
                       <div className="p-2 text-gray-400">
-                        <AlarmClock className="h-5 w-5" title="Read-only access" />
+                        {/* <AlarmClock className="h-5 w-5" title="Read-only access" /> */}
+                        <AlarmClock className="h-5 w-5" />
                       </div>
                     )}
                   </div>

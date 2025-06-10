@@ -5,7 +5,8 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { getDepartments, getEmployees, getAssets } from "../utils/dataService";
+// import { getDepartments, getEmployees, getAssets } from "../utils/dataService";
+import {getEmployees, getAssets } from "../utils/dataService";
 import axios from "axios";
 
 export type UserRole = "USER" | "MANAGER" | "ADMIN";
@@ -24,12 +25,17 @@ interface AuthContextType {
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
   users: User[];
-  canViewAsset: (assetId: string) => boolean;
-  canEditAsset: (assetId: string) => boolean;
+  // canViewAsset: (assetId: string) => boolean;
+  canViewAsset: (assetId: string) => Promise<boolean>;
+  // canEditAsset: (assetId: string) => boolean;
+  canEditAsset: ()=> boolean;
   canViewDepartment: (departmentId: string) => boolean;
-  canEditDepartment: (departmentId: string) => boolean;
-  canViewEmployee: (employeeId: string) => boolean;
-  canEditEmployee: (employeeId: string) => boolean;
+  // canEditDepartment: (departmentId: string) => boolean;
+  canEditDepartment: ()=> boolean;
+  // canViewEmployee: (employeeId: string) => boolean;
+  canViewEmployee: (employeeId: string) => Promise<boolean>;
+  // canEditEmployee: (employeeId: string) => boolean;
+  canEditEmployee:()=> boolean;
   canAddAsset: boolean;
   canAddDepartment: boolean;
   canAddEmployee: boolean;
@@ -149,7 +155,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   // Check if user can edit an asset
-  const canEditAsset = (assetId: string): boolean => {
+  // const canEditAsset = (assetId: string): boolean => {
+  const canEditAsset = (): boolean => {
     if (!currentUser) return false;
     return currentUser.role === "ADMIN";
   };
@@ -171,7 +178,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   // Check if user can edit a department
-  const canEditDepartment = (departmentId: string): boolean => {
+  // const canEditDepartment = (departmentId: string): boolean => {
+  const canEditDepartment = (): boolean => {
     if (!currentUser) return false;
     return currentUser.role === "ADMIN";
   };
@@ -200,7 +208,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   // Check if user can edit an employee
-  const canEditEmployee = (employeeId: string): boolean => {
+  // const canEditEmployee = (employeeId: string): boolean => {
+  const canEditEmployee = (): boolean => {
     if (!currentUser) return false;
     return currentUser.role === "ADMIN";
   };
@@ -214,7 +223,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const logout = async () => {
     localStorage.removeItem("currentUserId");
     try{
-      const response = await axios.get(`http://localhost:3500/logout`, {
+        await axios.get(`http://localhost:3500/logout`, {
           withCredentials: true,
       });
     } catch (err) {

@@ -1,6 +1,7 @@
-import React from 'react';
+// import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { CircleAlert, Eye, EyeOff, LockKeyhole } from 'lucide-react';
+// import { CircleAlert, Eye, EyeOff, LockKeyhole } from 'lucide-react';
+import { Eye, EyeOff, LockKeyhole } from 'lucide-react';
 
 const RoleBasedMessage = () => {
   const { currentUser } = useAuth();

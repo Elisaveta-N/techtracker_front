@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth, User } from "../contexts/AuthContext";
-import { LogIn, Monitor, Shield } from "lucide-react";
+import { LogIn, Monitor } from "lucide-react";
 import axios, { AxiosError } from "axios";
 import InputField from "../components/InputField";
 
 const LoginPage: React.FC = () => {
-  const { currentUser, setCurrentUser, users } = useAuth();
+  // const { currentUser, setCurrentUser, users } = useAuth();
+  const { setCurrentUser} = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
-  const [name, setName] = useState<string>("");
+  // const [name, setName] = useState<string>("");
   // const [password, setPassword] = useState<string>('');
   const [login, setLogin] = useState("");
   const [loginError, setLoginError] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
+  const [showPassword] = useState(false);
   const [passwordError, setPasswordError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {

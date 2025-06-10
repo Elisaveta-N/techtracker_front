@@ -18,7 +18,7 @@ import {
   getEmployees,
 } from "../utils/dataService";
 import { useAuth } from "../contexts/AuthContext";
-import PermissionGuard from "../components/PermissionGuard";
+// import PermissionGuard from "../components/PermissionGuard";
 
 const AssetsPage: React.FC = () => {
   const [assets, setAssets] = useState<Asset[]>([]);
@@ -215,16 +215,22 @@ const AssetsPage: React.FC = () => {
     .filter((asset) => !filterType || asset.assetType === filterType)
     .filter((asset) => !filterStatus || asset.assetStatus === filterStatus)
     .sort((a, b) => {
-      if (a[sortField] < b[sortField]) return sortDirection === "asc" ? -1 : 1;
-      if (a[sortField] > b[sortField]) return sortDirection === "asc" ? 1 : -1;
-      return 0;
+      // if (a[sortField] < b[sortField]) return sortDirection === "asc" ? -1 : 1;
+      // if (a[sortField] > b[sortField]) return sortDirection === "asc" ? 1 : -1;
+      // return 0;
+        const valA = a[sortField]?.toString() ?? '';
+        const valB = b[sortField]?.toString() ?? '';
+        
+        if (valA < valB) return sortDirection === "asc" ? -1 : 1;
+        if (valA > valB) return sortDirection === "asc" ? 1 : -1;
+        return 0;
     });
 
-  const getDepartmentName = (departmentId?: string) => {
-    if (!departmentId) return "N/A";
-    const department = departments.find((dept) => dept.id === departmentId);
-    return department?.name || "Unknown";
-  };
+  // const getDepartmentName = (departmentId?: string) => {
+  //   if (!departmentId) return "N/A";
+  //   const department = departments.find((dept) => dept.id === departmentId);
+  //   return department?.name || "Unknown";
+  // };
 
   return (
     <div>
@@ -414,7 +420,8 @@ const AssetsPage: React.FC = () => {
                       {asset.employee || "—"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      {canEditAsset(asset.id) ? (
+                      {/* {canEditAsset(asset.id) ? ( */}
+                      {canEditAsset() ? (
                         <div className="flex justify-end space-x-2">
                           <button
                             onClick={() => openEditModal(asset)}
@@ -431,10 +438,8 @@ const AssetsPage: React.FC = () => {
                         </div>
                       ) : (
                         <div className="flex justify-end text-gray-400">
-                          <AlertTriangle
-                            className="h-4 w-4"
-                            title="Read-only access"
-                          />
+                          {/* <AlertTriangle className="h-4 w-4" title="Read-only access"/> */}
+                          <AlertTriangle className="h-4 w-4"/>
                         </div>
                       )}
                     </td>
