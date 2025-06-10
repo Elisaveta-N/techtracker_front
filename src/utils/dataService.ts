@@ -146,7 +146,7 @@ export const getDepartments = async (): Promise<Department[]> => {
   // return JSON.parse(localStorage.getItem('departments') || '[]');
   try {
     const response = await axios.get(`http://localhost:3500/department`);
-    return response.data;
+    return response.data as Department[];
   } catch (err: AxiosError) {
     const errorMessage = err.response?.data?.message || err.message || "Failed to login data";
     console.log(errorMessage);
@@ -277,7 +277,7 @@ export const getAssets = async (): Promise<Asset[]> => {
   // return JSON.parse(localStorage.getItem("assets") || "[]");
   try {
     const response = await axios.get(`http://localhost:3500/asset`);
-    return response.data;
+    return response.data as Asset[];
   } catch (err: AxiosError) {
     const errorMessage = err.response?.data?.message || err.message || "Failed to login data";
     console.log(errorMessage);
@@ -336,7 +336,7 @@ export const createAsset = async (
     });
 
     if (response.status === 201) {
-      return response.data;
+      return response.data as Asset;
     }
   } catch (err) {
     console.error(`Failed to create an asset: ${err}`);
@@ -384,7 +384,7 @@ export const updateAsset = async (
     });
 
     if (response.status === 201) {
-      return response.data;
+      return response.data as Asset;
     }
   } catch (err) {
     console.error(`Failed to create an asset: ${err}`);
@@ -422,7 +422,7 @@ export const getEmployees = async (): Promise<Employee[]> => {
   // return JSON.parse(localStorage.getItem("employees") || "[]");
   try {
     const response = await axios.get(`http://localhost:3500/employee`);
-    return response.data;
+    return response.data as Employee[];
   } catch (err: AxiosError) {
     const errorMessage = err.response?.data?.message || err.message || "Failed to login data";
     console.log(errorMessage);
@@ -437,7 +437,7 @@ export const getEmployeeById = async (
   // return employees.find((emp) => emp.id === id);
   try {
     const response = await axios.get(`http://localhost:3500/employee/${id}`);
-    return response.data;
+    return response.data as Employee;
   } catch (err: AxiosError) {
     const errorMessage = err.response?.data?.message || err.message || "Failed to login data";
     console.log(errorMessage);
@@ -476,7 +476,7 @@ export const createEmployee = async (
     );
 
     if (response.status === 201) {
-      return response.data;
+      return response.data as Employee;
     }
   } catch (err) {
     console.error(`Failed to create employee: ${err}`);
@@ -518,7 +518,7 @@ export const updateEmployee = async (
     );
 
     if (response.status === 200) {
-      return response.data;
+      return response.data as Employee;
     }
   } catch (err) {
     console.error(`Failed to create employee: ${err}`);
