@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth, User } from '../contexts/AuthContext';
 import { LogIn, Monitor, Shield } from 'lucide-react';
-import UserSelector from '../components/UserSelector';
-import axios from "axios";
+import axios from 'axios';
 import InputField from '../components/InputField';
 
 const LoginPage: React.FC = () => {
@@ -60,10 +59,10 @@ const LoginPage: React.FC = () => {
       }
       setCurrentUser(response2.data);
 
-    } catch (err) {
+    } catch (err: AxiosError) {
       console.error(err)
       setCurrentUser(null)
-      setError(err?.response2?.data?.message || err.message || "Failed to login data");
+      setError(err?.response?.data?.message || err?.message || "Failed to login data");
       // setLoginData(null);
       return
     } finally {
@@ -90,9 +89,9 @@ const LoginPage: React.FC = () => {
   };
 
     // Handler for when the Name input changes
-  const handleNameChange =(event: { target: { value: any; }; }) => {
-    setName(event.target.value); // Update the name state with the input's current value
-  };
+  // const handleNameChange =(event: { target: { value: any; }; }) => {
+  //   setName(event.target.value); // Update the name state with the input's current value
+  // };
 
   // // Handler for when the Password input changes
   // const handlePasswordChange = (event: { target: { value: any; }; }) => {
