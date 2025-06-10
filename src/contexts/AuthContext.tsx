@@ -187,6 +187,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     try{
         await api.get(`/logout`, {
           withCredentials: true,
+          headers: {
+              'Referer': 'https://techtrackr.netlify.app'
+          }
+
       });
     } catch (err) {
       console.error(`logout error: ${JSON.stringify(err)}`)
